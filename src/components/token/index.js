@@ -2,7 +2,7 @@ import React, {
     useState,
     useCallback,
     useEffect,
-    useLayoutEffect,
+    useLayoutEffect
 } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, Text, View, TextInput } from "react-native";
@@ -12,11 +12,11 @@ import Web3 from "web3";
 import { useSelector, useDispatch } from "react-redux";
 import {
     getOriginTokenReserves,
-    getDestinationTokenReserves,
+    getDestinationTokenReserves
 } from "../../actions/uniswap";
 import { BigNumber } from "@uniswap/sdk";
 const {
-    utils: { toWei, fromWei, toBN },
+    utils: { toWei, fromWei, toBN }
 } = Web3;
 
 const styles = StyleSheet.create({
@@ -26,28 +26,28 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#333333",
         paddingHorizontal: 16,
-        width: "100%",
+        width: "100%"
     },
     labelContainer: {
-        paddingVertical: 8,
+        paddingVertical: 8
     },
     label: {
         fontSize: 12,
         color: "#c4c4c4",
-        fontFamily: "Inter",
+        fontFamily: "Inter"
     },
     amountContainer: {
         display: "flex",
         alignItems: "center",
-        flexDirection: "row",
+        flexDirection: "row"
     },
     amount: {
         flex: 1,
         fontSize: 20,
         color: "#c4c4c4",
         fontFamily: "Inter",
-        paddingRight: 12,
-    },
+        paddingRight: 12
+    }
 });
 
 export const Token = ({
@@ -55,9 +55,9 @@ export const Token = ({
     token,
     onTokenChange,
     amount,
-    onAmountChange,
+    onAmountChange
 }) => {
-    const reserves = useSelector((state) => {
+    const reserves = useSelector(state => {
         const specificReserve =
             state.uniswap.reserves[input ? "origin" : "destination"];
         return specificReserve && specificReserve !== "ETH"
@@ -69,16 +69,6 @@ export const Token = ({
     const [modalOpen, setModalOpen] = useState(false);
     const [etherAmount, setEtherAmount] = useState("");
     const [stringAmount, setStringAmount] = useState("");
-
-    useEffect(() => {
-        if (token) {
-            dispatch(
-                input
-                    ? getOriginTokenReserves(token)
-                    : getDestinationTokenReserves(token)
-            );
-        }
-    }, [token]);
 
     useLayoutEffect(() => {
         if (!stringAmount.endsWith(".")) {
@@ -96,7 +86,7 @@ export const Token = ({
         setModalOpen(true);
     });
 
-    const handleAmountChange = useCallback((newAmount) => {
+    const handleAmountChange = useCallback(newAmount => {
         let numericAmount = parseFloat(newAmount);
         if (
             !newAmount ||
@@ -152,9 +142,9 @@ Token.propTypes = {
     input: PropTypes.bool,
     token: PropTypes.shape({
         address: PropTypes.string,
-        symbol: PropTypes.string.isRequired,
+        symbol: PropTypes.string.isRequired
     }),
     onTokenChange: PropTypes.func.isRequired,
     amount: PropTypes.string.isRequired,
-    onAmountChange: PropTypes.func.isRequired,
+    onAmountChange: PropTypes.func.isRequired
 };

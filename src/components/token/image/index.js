@@ -10,7 +10,7 @@ export const TokenImage = ({ address, size, ...rest }) =>
             source={{
                 uri: `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`,
                 width: size,
-                height: size,
+                height: size
             }}
         />
     ) : (

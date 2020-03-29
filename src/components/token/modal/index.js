@@ -9,7 +9,7 @@ import {
     TextInput,
     TouchableWithoutFeedback,
     TouchableNativeFeedback,
-    Image,
+    Image
 } from "react-native";
 import { SUPPORTED_TOKENS } from "../../../commons/supported-tokens";
 import { TokenImage } from "../image";
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#292c2f",
         borderRadius: 10,
-        maxHeight: "50%",
+        maxHeight: "50%"
     },
     header: {
         height: 60,
@@ -31,55 +31,55 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 16,
+        paddingHorizontal: 16
     },
     title: {
         fontSize: 16,
         fontFamily: "inter",
-        color: "#fff",
+        color: "#fff"
     },
     closeIcon: {
-        color: "#fff",
+        color: "#fff"
     },
     searchContainer: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         height: 60,
-        backgroundColor: "rgb(41, 44, 47)",
+        backgroundColor: "rgb(41, 44, 47)"
     },
     searchIconContainer: {
         width: 60,
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     },
     searchText: {
         fontFamily: "Inter",
         color: "#fff",
-        width: "100%",
+        width: "100%"
     },
     tokenListItem: {
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        padding: 16,
+        padding: 16
     },
     tokenInfoContainer: {
         display: "flex",
-        marginLeft: 16,
+        marginLeft: 16
     },
     tokenSymbol: {
         fontFamily: "Inter",
         fontSize: 16,
-        color: "#fff",
+        color: "#fff"
     },
     tokenName: {
         fontFamily: "Inter",
         fontSize: 16,
         color: "rgb(123, 123, 123)",
-        marginBottom: 4,
-    },
+        marginBottom: 4
+    }
 });
 
 const DEFAULT_TOKEN_DATASET = Object.entries(SUPPORTED_TOKENS[NETWORK_ID]);
@@ -103,7 +103,7 @@ export const Modal = ({ open, onClose, onChange }) => {
         }
     }, [searchTerm]);
 
-    const getPressHandler = (token) => () => {
+    const getPressHandler = token => () => {
         onChange(token);
         onClose();
     };
@@ -147,7 +147,7 @@ export const Modal = ({ open, onClose, onChange }) => {
                             <TouchableNativeFeedback
                                 onPress={getPressHandler({
                                     address,
-                                    ...info,
+                                    ...info
                                 })}
                             >
                                 <View style={styles.tokenListItem}>
@@ -173,5 +173,5 @@ export const Modal = ({ open, onClose, onChange }) => {
 Modal.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired
 };

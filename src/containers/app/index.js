@@ -9,11 +9,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { initializeLedgerListener, initializeWeb3 } from "../../actions/eth";
 import { WarningMessage } from "../../components/warning-message";
 import { ExchangeRate } from "../../components/exchange-rate";
-import { getTradeDetails } from "../../actions/uniswap";
+import {
+    getTradeDetails,
+    getDestinationTokenReserves,
+    getOriginTokenReserves
+} from "../../actions/uniswap";
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { NETWORK_ID } from "../../env";
-import ArrowDown from "../../../../assets/images/arrow-down.svg";
+import ArrowDown from "../../../assets/images/arrow-down.svg";
 
 const styles = StyleSheet.create({
     outerContainer: {
@@ -23,19 +27,19 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#333639",
-        paddingTop: 16,
+        paddingTop: 16
     },
     toolbarContainer: {
-        backgroundColor: "#333639",
+        backgroundColor: "#333639"
     },
     innerContainer: {
         display: "flex",
         alignItems: "center",
         width: "90%",
-        height: "100%",
+        height: "100%"
     },
     firstTokenContainer: {
-        width: "100%",
+        width: "100%"
     },
     middleView: {
         zIndex: 0,
@@ -44,13 +48,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: 32,
         width: "90%",
-        backgroundColor: "rgb(41, 44, 47)",
+        backgroundColor: "rgb(41, 44, 47)"
     },
     arrowDownIcon: {
-        color: "#7b7b7b",
+        color: "#7b7b7b"
     },
     secondTokenContainer: {
-        width: "100%",
+        width: "100%"
     },
     exchangeRateView: {
         marginBottom: 32,
@@ -64,19 +68,19 @@ const styles = StyleSheet.create({
         width: "90%",
         backgroundColor: "rgb(41, 44, 47)",
         borderBottomLeftRadius: 8,
-        borderBottomRightRadius: 8,
+        borderBottomRightRadius: 8
     },
     warningTextContainer: {
-        marginBottom: 32,
+        marginBottom: 32
     },
     buttonContainer: {
-        width: "70%",
+        width: "70%"
     },
     exchangeRateText: {
         fontFamily: "Inter",
         fontSize: 12,
-        color: "rgb(196, 196, 196)",
-    },
+        color: "rgb(196, 196, 196)"
+    }
 });
 
 export const App = () => {
@@ -85,13 +89,13 @@ export const App = () => {
         selectedAddress,
         originReserves,
         destinationReserves,
-        tradeDetails,
-    } = useSelector((state) => ({
+        tradeDetails
+    } = useSelector(state => ({
         web3Instance: state.eth.web3Instance,
         selectedAddress: state.eth.selectedAddress,
         originReserves: state.uniswap.reserves.origin,
         destinationReserves: state.uniswap.reserves.destination,
-        tradeDetails: state.uniswap.trade,
+        tradeDetails: state.uniswap.trade
     }));
     const dispatch = useDispatch();
 
@@ -125,6 +129,7 @@ export const App = () => {
 
     useEffect(() => {
         if (
+            !web3Instance ||
             !originReserves ||
             !destinationReserves ||
             (!originAmountChanged && !destinationAmountChanged)
@@ -138,19 +143,45 @@ export const App = () => {
                 originAmountChanged ? destinationReserves : originReserves
             )
         );
-    }, [originReserves, destinationReserves, originAmount, destinationAmount]);
+    }, [
+        originReserves,
+        destinationReserves,
+        originAmount,
+        destinationAmount,
+        web3Instance
+    ]);
 
-    const handleOriginAmountChange = useCallback((amount) => {
+    const handleOriginAmountChange = useCallback(amount => {
         setOriginAmount(amount);
         setOriginAmountChanged(true);
         setDestinationAmountChanged(false);
     });
 
-    const handleDestinationAmountChange = useCallback((amount) => {
+    const handleOriginTokenChange = useCallback(
+        token => {
+            setOriginToken(token);
+            if (web3Instance) {
+                dispatch(getOriginTokenReserves(token));
+            }
+        },
+        [web3Instance]
+    );
+
+    const handleDestinationAmountChange = useCallback(amount => {
         setDestinationAmount(amount);
         setOriginAmountChanged(false);
         setDestinationAmountChanged(true);
     });
+
+    const handleDestinationTokenChange = useCallback(
+        token => {
+            setDestinationToken(token);
+            if (web3Instance) {
+                dispatch(getDestinationTokenReserves(token));
+            }
+        },
+        [web3Instance]
+    );
 
     const handleButtonPress = useCallback(() => {
         if (web3Instance) {
@@ -171,7 +202,7 @@ export const App = () => {
                         <Token
                             input
                             token={originToken}
-                            onTokenChange={setOriginToken}
+                            onTokenChange={handleOriginTokenChange}
                             onAmountChange={handleOriginAmountChange}
                             amount={originAmount}
                         />
@@ -186,7 +217,7 @@ export const App = () => {
                     <View style={styles.secondTokenContainer}>
                         <Token
                             token={destinationToken}
-                            onTokenChange={setDestinationToken}
+                            onTokenChange={handleDestinationTokenChange}
                             onAmountChange={handleDestinationAmountChange}
                             amount={destinationAmount}
                         />
