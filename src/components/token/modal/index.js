@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import { SUPPORTED_TOKENS } from "../../../commons/supported-tokens";
 import { TokenImage } from "../image";
-import MagnifyingGlass from "../../../../assets/images/magnifying-glass.svg";
 import Close from "../../../../assets/images/close.svg";
 import { NETWORK_ID } from "../../../env";
 
@@ -128,7 +127,7 @@ export const Modal = ({ open, onClose, onChange }) => {
                     </View>
                     <View style={styles.searchContainer}>
                         <View style={styles.searchIconContainer}>
-                            <MagnifyingGlass width={32} height={32} />
+                            <Text>🔎</Text>
                         </View>
                         <TextInput
                             placeholderTextColor="#808080"
