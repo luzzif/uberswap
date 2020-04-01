@@ -20,6 +20,7 @@ export const WarningMessage = ({
     useEffect(() => {
         if (!originToken || !destinationToken) {
             setWarningMessage("Select a token to continue");
+            setError(false);
             return;
         }
         if (
@@ -29,6 +30,7 @@ export const WarningMessage = ({
             destinationAmount === "0"
         ) {
             setWarningMessage("Enter a value to continue");
+            setError(false);
             return;
         }
         setWarningMessage("No Ethereum wallet found");

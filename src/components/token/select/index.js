@@ -13,41 +13,41 @@ const commonContainerStyles = {
     borderRadius: 16,
     borderWidth: 1,
     paddingHorizontal: 8,
-    paddingVertical: 4
+    paddingVertical: 4,
 };
 
 const commonLabelStyles = {
     fontSize: 16,
     color: "#fff",
     fontFamily: "Inter",
-    marginRight: 8
+    marginRight: 8,
 };
 
 const styles = StyleSheet.create({
     standardContainer: {
         ...commonContainerStyles,
-        borderColor: "#333333"
+        borderColor: "#333333",
     },
     noTokenContainer: {
         ...commonContainerStyles,
-        borderColor: "#dc6be5"
+        borderColor: "#dc6be5",
     },
     flexHorizontal: {
         display: "flex",
         flexDirection: "row",
-        alignItems: "center"
+        alignItems: "center",
     },
     image: {
-        marginRight: 8
+        marginRight: 8,
     },
     standardLabel: {
         ...commonLabelStyles,
-        color: "#fff"
+        color: "#fff",
     },
     noTokenLabel: {
         ...commonLabelStyles,
-        color: "#dc6be5"
-    }
+        color: "#dc6be5",
+    },
 });
 
 export const Select = ({ token, onPress }) => (
@@ -80,7 +80,7 @@ export const Select = ({ token, onPress }) => (
 Select.propTypes = {
     token: PropTypes.shape({
         address: PropTypes.string,
-        symbol: PropTypes.string.isRequired
+        symbol: PropTypes.string.isRequired,
     }),
-    onPress: PropTypes.func.isRequired
+    onPress: PropTypes.func.isRequired,
 };

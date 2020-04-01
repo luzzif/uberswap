@@ -17,7 +17,6 @@ export const ExchangeRate = ({ originToken, destinationToken }) => {
         if (!trade) {
             return null;
         }
-        const { rate } = trade.executionRate;
         return trade.executionRate.rate.isNaN()
             ? null
             : trade.executionRate.rate;

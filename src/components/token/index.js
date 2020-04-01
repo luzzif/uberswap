@@ -1,22 +1,17 @@
 import React, {
     useState,
     useCallback,
-    useEffect,
-    useLayoutEffect
+    useLayoutEffect,
 } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { Select } from "./select";
 import { Modal } from "./modal";
 import Web3 from "web3";
-import { useSelector, useDispatch } from "react-redux";
-import {
-    getOriginTokenReserves,
-    getDestinationTokenReserves
-} from "../../actions/uniswap";
+import { useSelector } from "react-redux";
 import { BigNumber } from "@uniswap/sdk";
 const {
-    utils: { toWei, fromWei, toBN }
+    utils: { toWei, fromWei },
 } = Web3;
 
 const styles = StyleSheet.create({
@@ -26,28 +21,28 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#333333",
         paddingHorizontal: 16,
-        width: "100%"
+        width: "100%",
     },
     labelContainer: {
-        paddingVertical: 8
+        paddingVertical: 8,
     },
     label: {
         fontSize: 12,
         color: "#c4c4c4",
-        fontFamily: "Inter"
+        fontFamily: "Inter",
     },
     amountContainer: {
         display: "flex",
         alignItems: "center",
-        flexDirection: "row"
+        flexDirection: "row",
     },
     amount: {
         flex: 1,
         fontSize: 20,
         color: "#c4c4c4",
         fontFamily: "Inter",
-        paddingRight: 12
-    }
+        paddingRight: 12,
+    },
 });
 
 export const Token = ({
@@ -55,19 +50,17 @@ export const Token = ({
     token,
     onTokenChange,
     amount,
-    onAmountChange
+    onAmountChange,
 }) => {
-    const reserves = useSelector(state => {
+    const reserves = useSelector((state) => {
         const specificReserve =
             state.uniswap.reserves[input ? "origin" : "destination"];
         return specificReserve && specificReserve !== "ETH"
             ? specificReserve.tokenReserve.amount
             : new BigNumber("0");
     });
-    const dispatch = useDispatch();
 
     const [modalOpen, setModalOpen] = useState(false);
-    const [etherAmount, setEtherAmount] = useState("");
     const [stringAmount, setStringAmount] = useState("");
 
     useLayoutEffect(() => {
@@ -86,7 +79,7 @@ export const Token = ({
         setModalOpen(true);
     });
 
-    const handleAmountChange = useCallback(newAmount => {
+    const handleAmountChange = useCallback((newAmount) => {
         let numericAmount = parseFloat(newAmount);
         if (
             !newAmount ||
@@ -99,8 +92,11 @@ export const Token = ({
         }
         let properNumericValue = isNaN(numericAmount)
             ? "0"
-            : toWei(numericAmount.toString());
-        onAmountChange(properNumericValue);
+            : numericAmount.toString();
+        if (!reserves.isZero() && reserves.isLessThan(properNumericValue)) {
+            properNumericValue = reserves.toFixed();
+        }
+        onAmountChange(toWei(properNumericValue));
         setStringAmount(newAmount);
     }, []);
 
@@ -142,9 +138,9 @@ Token.propTypes = {
     input: PropTypes.bool,
     token: PropTypes.shape({
         address: PropTypes.string,
-        symbol: PropTypes.string.isRequired
+        symbol: PropTypes.string.isRequired,
     }),
     onTokenChange: PropTypes.func.isRequired,
     amount: PropTypes.string.isRequired,
-    onAmountChange: PropTypes.func.isRequired
+    onAmountChange: PropTypes.func.isRequired,
 };

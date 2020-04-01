@@ -8,10 +8,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         height: 56,
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
     },
     text: {
         fontFamily: "Inter",
@@ -40,10 +36,7 @@ export const Footer = () => {
             >
                 About
             </Text>
-            <Text
-                style={{ ...styles.text, ...styles.marginRight }}
-                onPress={handleDocsPress}
-            >
+            <Text style={{ ...styles.text }} onPress={handleDocsPress}>
                 Docs
             </Text>
         </View>
