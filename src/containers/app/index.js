@@ -12,13 +12,13 @@ const styles = StyleSheet.create({
         display: "flex",
         width: "100%",
         height: "100%",
-        backgroundColor: "#333639",
+        backgroundColor: "rgb(51, 54, 57)",
     },
     contentContainer: { display: "flex", flex: 1 },
     tabContainer: {
         flex: 1,
         marginHorizontal: 16,
-        marginTop: 16,
+        marginTop: 8,
     },
     bottomTabsContainer: {
         marginBottom: 16,

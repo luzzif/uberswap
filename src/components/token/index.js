@@ -1,8 +1,4 @@
-import React, {
-    useState,
-    useCallback,
-    useLayoutEffect,
-} from "react";
+import React, { useState, useCallback, useLayoutEffect } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import { Select } from "./select";
@@ -79,26 +75,29 @@ export const Token = ({
         setModalOpen(true);
     });
 
-    const handleAmountChange = useCallback((newAmount) => {
-        let numericAmount = parseFloat(newAmount);
-        if (
-            !newAmount ||
-            newAmount.indexOf(",") >= 0 ||
-            newAmount.indexOf(" ") >= 0 ||
-            newAmount.indexOf("-") >= 0
-        ) {
-            onAmountChange("0");
-            return;
-        }
-        let properNumericValue = isNaN(numericAmount)
-            ? "0"
-            : numericAmount.toString();
-        if (!reserves.isZero() && reserves.isLessThan(properNumericValue)) {
-            properNumericValue = reserves.toFixed();
-        }
-        onAmountChange(toWei(properNumericValue));
-        setStringAmount(newAmount);
-    }, []);
+    const handleAmountChange = useCallback(
+        (newAmount) => {
+            let numericAmount = parseFloat(newAmount);
+            if (
+                !newAmount ||
+                newAmount.indexOf(",") >= 0 ||
+                newAmount.indexOf(" ") >= 0 ||
+                newAmount.indexOf("-") >= 0
+            ) {
+                onAmountChange("0");
+                return;
+            }
+            let properNumericValue = isNaN(numericAmount)
+                ? "0"
+                : numericAmount.toString();
+            if (!reserves.isZero() && reserves.isLessThan(properNumericValue)) {
+                properNumericValue = reserves.toFixed();
+            }
+            onAmountChange(toWei(properNumericValue));
+            setStringAmount(newAmount);
+        },
+        [reserves]
+    );
 
     return (
         <View>

@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
+    outerContainer: {
+        display: "flex",
+        alignItems: "center",
+    },
     text: {
         fontFamily: "Inter",
     },
@@ -38,14 +42,16 @@ export const WarningMessage = ({
     }, [originToken, originAmount, destinationToken, destinationAmount]);
 
     return (
-        <Text
-            style={{
-                ...styles.text,
-                color: error ? "rgb(255, 104, 113)" : "rgb(196, 196, 196)",
-            }}
-        >
-            {warningMessage}
-        </Text>
+        <View style={styles.outerContainer}>
+            <Text
+                style={{
+                    ...styles.text,
+                    color: error ? "rgb(255, 104, 113)" : "rgb(196, 196, 196)",
+                }}
+            >
+                {warningMessage}
+            </Text>
+        </View>
     );
 };
 

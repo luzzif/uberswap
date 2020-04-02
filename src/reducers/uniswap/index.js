@@ -2,6 +2,7 @@ import {
     GET_ORIGIN_TOKEN_RESERVES_SUCCESS,
     GET_DESTINATION_TOKEN_RESERVES_SUCCESS,
     GET_TRADE_DETAILS_SUCCESS,
+    RESET_TRADE_DETAILS_SUCCESS,
 } from "../../actions/uniswap";
 
 const initialState = {
@@ -38,6 +39,9 @@ export const uniswapReducer = (state = initialState, action) => {
         case GET_TRADE_DETAILS_SUCCESS: {
             const { details } = action;
             return { ...state, trade: details };
+        }
+        case RESET_TRADE_DETAILS_SUCCESS: {
+            return { ...state, trade: null };
         }
         default: {
             return state;

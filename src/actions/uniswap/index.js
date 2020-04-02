@@ -10,6 +10,7 @@ export const GET_ORIGIN_TOKEN_RESERVES_SUCCESS =
 export const GET_DESTINATION_TOKEN_RESERVES_SUCCESS =
     "GET_DESTINATION_TOKEN_RESERVES_SUCCESS";
 export const GET_TRADE_DETAILS_SUCCESS = "GET_TRADE_DETAILS_SUCCESS";
+export const RESET_TRADE_DETAILS_SUCCESS = "RESET_TRADE_DETAILS_SUCCESS";
 
 const getOriginTokenReservesSuccess = (reserves) => ({
     type: GET_ORIGIN_TOKEN_RESERVES_SUCCESS,
@@ -26,12 +27,14 @@ const getTradeDetailsSuccess = (details) => ({
     details,
 });
 
+export const resetTradeDetails = () => ({ type: RESET_TRADE_DETAILS_SUCCESS });
+
 export const getOriginTokenReserves = (token) => async (dispatch, getState) => {
     try {
         const { eth } = getState();
         const { web3Instance } = eth;
         let reserves = "ETH";
-        if (token.address) {
+        if (token.address !== "ETH") {
             reserves = await getTokenReserves(
                 token.address,
                 web3Instance.currentProvider
@@ -51,7 +54,7 @@ export const getDestinationTokenReserves = (token) => async (
         const { eth } = getState();
         const { web3Instance } = eth;
         let reserves = "ETH";
-        if (token.address) {
+        if (token.address !== "ETH") {
             reserves = await getTokenReserves(
                 token.address,
                 web3Instance.currentProvider

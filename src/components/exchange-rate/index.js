@@ -25,9 +25,9 @@ export const ExchangeRate = ({ originToken, destinationToken }) => {
     return (
         <Text style={styles.text}>
             {originToken && tradeRate && destinationToken
-                ? `1 ${originToken.symbol} = ${tradeRate
-                      .toFixed(6)
-                      .toString()} ${destinationToken.symbol}`
+                ? `1 ${originToken.symbol} = ${tradeRate.decimalPlaces(4)} ${
+                      destinationToken.symbol
+                  }`
                 : "-"}
         </Text>
     );

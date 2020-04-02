@@ -5,15 +5,17 @@ import { Token } from "../../components/token";
 import { SUPPORTED_TOKENS } from "../../commons/supported-tokens";
 import { useSelector, useDispatch } from "react-redux";
 import { initializeLedgerListener, initializeWeb3 } from "../../actions/eth";
-import { WarningMessage } from "../../components/warning-message";
+import { WarningMessage } from "./warning-message";
 import { ExchangeRate } from "../../components/exchange-rate";
 import {
     getTradeDetails,
     getDestinationTokenReserves,
     getOriginTokenReserves,
+    resetTradeDetails,
 } from "../../actions/uniswap";
 import { NETWORK_ID } from "../../env";
 import ArrowDown from "../../../assets/images/arrow-down.svg";
+import { TradeDetails } from "./trade-details";
 
 const styles = StyleSheet.create({
     outerContainer: {
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     exchangeRateView: {
-        marginBottom: 32,
+        marginBottom: 16,
         zIndex: 0,
         display: "flex",
         flexDirection: "row",
@@ -56,6 +58,7 @@ const styles = StyleSheet.create({
     },
     warningTextContainer: {
         marginBottom: 32,
+        width: "100%",
     },
     buttonContainer: {
         width: "70%",
@@ -93,6 +96,8 @@ export const Swap = () => {
     const [destinationAmountChanged, setDestinationAmountChanged] = useState(
         false
     );
+    const [additionalSlippage, setAdditionalSlippage] = useState(0.5);
+    const [deadline, setDeadline] = useState("");
 
     useEffect(() => {
         dispatch(initializeWeb3());
@@ -118,6 +123,7 @@ export const Swap = () => {
             !destinationReserves ||
             (!originAmountChanged && !destinationAmountChanged)
         ) {
+            dispatch(resetTradeDetails());
             return;
         }
         dispatch(
@@ -209,12 +215,22 @@ export const Swap = () => {
                 />
             </View>
             <View style={styles.warningTextContainer}>
-                <WarningMessage
-                    originToken={originToken}
-                    destinationToken={destinationToken}
-                    originAmount={originAmount}
-                    destinationAmount={destinationAmount}
-                />
+                {tradeDetails ? (
+                    <TradeDetails
+                        details={tradeDetails}
+                        additionalSlippage={additionalSlippage}
+                        onAdditionalSlippageChange={setAdditionalSlippage}
+                        deadline={deadline}
+                        onDeadlineChange={setDeadline}
+                    />
+                ) : (
+                    <WarningMessage
+                        originToken={originToken}
+                        destinationToken={destinationToken}
+                        originAmount={originAmount}
+                        destinationAmount={destinationAmount}
+                    />
+                )}
             </View>
             <View style={styles.buttonContainer}>
                 <Button
