@@ -1,11 +1,6 @@
-import React, { useState, useCallback } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import {
-    Animated,
-    TouchableWithoutFeedback,
-    StyleSheet,
-    Text,
-} from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 const styles = StyleSheet.create({
     container: {
@@ -23,42 +18,17 @@ const styles = StyleSheet.create({
     },
 });
 
-export const Button = ({ title, onPress, disabled }) => {
-    const [active, setActive] = useState(false);
-
-    const handlePressIn = useCallback(() => {
-        if (disabled) {
-            return;
-        }
-        setActive(true);
-    }, []);
-
-    const handlePressOut = useCallback(() => {
-        if (disabled) {
-            return;
-        }
-        setActive(false);
-    }, []);
-
-    return (
-        <TouchableWithoutFeedback
-            onPressIn={handlePressIn}
-            onPressOut={handlePressOut}
-            onPress={!disabled && onPress}
-        >
-            <Animated.View
-                style={{
-                    ...styles.container,
-                    backgroundColor: active ? "#d240dd" : "#dc6be5",
-                }}
-            >
-                <Text style={styles.text} numberOfLines={1}>
-                    {title}
-                </Text>
-            </Animated.View>
-        </TouchableWithoutFeedback>
-    );
-};
+export const Button = ({ title, onPress, disabled }) => (
+    <TouchableOpacity
+        disabled={disabled}
+        onPress={onPress}
+        style={styles.container}
+    >
+        <Text style={styles.text} numberOfLines={1}>
+            {title}
+        </Text>
+    </TouchableOpacity>
+);
 
 Button.propTypes = {
     title: PropTypes.string.isRequired,

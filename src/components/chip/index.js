@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableWithoutFeedback, View, Text } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 
 const commonContainerStyles = {
@@ -31,15 +31,12 @@ const styles = StyleSheet.create({
 });
 
 export const Chip = ({ text, active, onPress }) => (
-    <TouchableWithoutFeedback onPress={onPress}>
-        <View
-            style={
-                active ? styles.selectedCcontainer : styles.unselectedContainer
-            }
-        >
-            <Text style={styles.titleContainer}>{text}</Text>
-        </View>
-    </TouchableWithoutFeedback>
+    <TouchableOpacity
+        onPress={onPress}
+        style={active ? styles.selectedCcontainer : styles.unselectedContainer}
+    >
+        <Text style={styles.titleContainer}>{text}</Text>
+    </TouchableOpacity>
 );
 
 Chip.propTypes = {

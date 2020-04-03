@@ -4,8 +4,8 @@ import {
     Text,
     StyleSheet,
     View,
-    TouchableWithoutFeedback,
     KeyboardAvoidingView,
+    TouchableOpacity,
 } from "react-native";
 import PinkChevronDown from "../../../../assets/images/chevron-down-pink.svg";
 import PinkChevronUp from "../../../../assets/images/chevron-up-pink.svg";
@@ -15,6 +15,8 @@ import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { SUPPORTED_TOKENS } from "../../../commons/supported-tokens";
 import { NETWORK_ID } from "../../../env";
+import Collapsible from "react-native-collapsible";
+
 const {
     utils: { fromWei },
 } = Web3;
@@ -26,8 +28,8 @@ const commonTradeDetailsContainerStyles = {
 
 const styles = StyleSheet.create({
     outerContainer: {
-        display: "flex",
-        alignItems: "center",
+        width: "100%",
+        paddingHorizontal: 16,
     },
     advancedDetailsText: {
         color: "#dc6be5",
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
     tradeDetailsOuterContainer: {
         ...commonTradeDetailsContainerStyles,
         backgroundColor: "rgb(41, 44, 47)",
-        marginTop: 16,
+        width: "100%",
     },
     tradeDetailsInnerContainer: {
         ...commonTradeDetailsContainerStyles,
@@ -61,6 +63,11 @@ const styles = StyleSheet.create({
     },
     highlightedText: {
         color: "#dc6be5",
+    },
+    touchableText: {
+        display: "flex",
+        alignItems: "center",
+        marginBottom: 16,
     },
     chipsContainer: {
         display: "flex",
@@ -136,7 +143,10 @@ export const TradeDetails = ({
 
     return (
         <View style={styles.outerContainer}>
-            <TouchableWithoutFeedback onPress={handleTextPress}>
+            <TouchableOpacity
+                onPress={handleTextPress}
+                style={styles.touchableText}
+            >
                 <View style={styles.advancedDetailsTextContainer}>
                     <Text style={styles.advancedDetailsText}>
                         {show ? "Hide details" : "Advanced details"}
@@ -147,12 +157,11 @@ export const TradeDetails = ({
                         <PinkChevronDown width={12} height={12} />
                     )}
                 </View>
-            </TouchableWithoutFeedback>
-            <View
-                style={{
-                    display: show ? "flex" : "none",
-                    ...styles.tradeDetailsOuterContainer,
-                }}
+            </TouchableOpacity>
+            <Collapsible
+                collapsed={!show}
+                align="bottom"
+                style={styles.tradeDetailsOuterContainer}
             >
                 <View style={styles.textContainer}>
                     <Text style={{ ...styles.text, ...styles.bottomSpacer }}>
@@ -180,7 +189,10 @@ export const TradeDetails = ({
                 >
                     <View style={styles.textContainer}>
                         <Text
-                            style={{ ...styles.text, ...styles.bottomSpacer }}
+                            style={{
+                                ...styles.text,
+                                ...styles.bottomSpacer,
+                            }}
                         >
                             Limit additional price slippage.
                         </Text>
@@ -230,7 +242,7 @@ export const TradeDetails = ({
                         </KeyboardAvoidingView>
                     </View>
                 </View>
-            </View>
+            </Collapsible>
         </View>
     );
 };

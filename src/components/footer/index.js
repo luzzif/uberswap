@@ -1,5 +1,11 @@
 import React, { useCallback } from "react";
-import { View, StyleSheet, Text, Linking } from "react-native";
+import {
+    View,
+    StyleSheet,
+    Text,
+    Linking,
+    TouchableOpacity,
+} from "react-native";
 
 const styles = StyleSheet.create({
     container: {
@@ -30,15 +36,14 @@ export const Footer = () => {
 
     return (
         <View style={styles.container}>
-            <Text
-                style={{ ...styles.text, ...styles.marginRight }}
-                onPress={handleAboutPress}
-            >
-                About
-            </Text>
-            <Text style={{ ...styles.text }} onPress={handleDocsPress}>
-                Docs
-            </Text>
+            <TouchableOpacity onPress={handleAboutPress}>
+                <Text style={{ ...styles.text, ...styles.marginRight }}>
+                    About
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleDocsPress}>
+                <Text style={styles.text}>Docs</Text>
+            </TouchableOpacity>
         </View>
     );
 };

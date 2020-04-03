@@ -7,8 +7,7 @@ import {
     View,
     FlatList,
     TextInput,
-    TouchableWithoutFeedback,
-    TouchableNativeFeedback,
+    TouchableOpacity,
 } from "react-native";
 import { SUPPORTED_TOKENS } from "../../../commons/supported-tokens";
 import { TokenImage } from "../image";
@@ -121,9 +120,9 @@ export const Modal = ({ open, onClose, onChange }) => {
                 <View style={styles.container}>
                     <View style={styles.header}>
                         <Text style={styles.title}>Select a token</Text>
-                        <TouchableWithoutFeedback onPress={onClose}>
+                        <TouchableOpacity onPress={onClose}>
                             <Close style={styles.closeIcon} size={20} />
-                        </TouchableWithoutFeedback>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.searchContainer}>
                         <View style={styles.searchIconContainer}>
@@ -142,7 +141,7 @@ export const Modal = ({ open, onClose, onChange }) => {
                         data={tokenDataset}
                         keyExtractor={([address]) => address || "ETH"}
                         renderItem={({ item: [address, info] }) => (
-                            <TouchableNativeFeedback
+                            <TouchableOpacity
                                 onPress={getPressHandler({
                                     address,
                                     ...info,
@@ -159,7 +158,7 @@ export const Modal = ({ open, onClose, onChange }) => {
                                         </Text>
                                     </View>
                                 </View>
-                            </TouchableNativeFeedback>
+                            </TouchableOpacity>
                         )}
                     />
                 </View>

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet, Text, TouchableWithoutFeedback } from "react-native";
+import { View, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 const commonItemStyles = {
     display: "flex",
@@ -67,29 +67,24 @@ export const BottomTabs = ({ items, index, onChange }) => {
     return (
         <View style={styles.outerContainer}>
             {items.map((item, itemIndex) => (
-                <TouchableWithoutFeedback
+                <TouchableOpacity
                     key={item.key}
                     onPress={
                         item.disabled
                             ? () => {}
                             : getItemPresshandler(itemIndex)
                     }
+                    style={{
+                        width: `${100 / items.length}%`,
+                        ...(index === itemIndex
+                            ? styles.selectedItem
+                            : styles.unselectedItem),
+                    }}
                 >
-                    <View
-                        style={{
-                            width: `${100 / items.length}%`,
-                            ...(index === itemIndex
-                                ? styles.selectedItem
-                                : styles.unselectedItem),
-                        }}
-                    >
-                        <Text
-                            style={getItemTextStyles(itemIndex, item.disabled)}
-                        >
-                            {item.title}
-                        </Text>
-                    </View>
-                </TouchableWithoutFeedback>
+                    <Text style={getItemTextStyles(itemIndex, item.disabled)}>
+                        {item.title}
+                    </Text>
+                </TouchableOpacity>
             ))}
         </View>
     );

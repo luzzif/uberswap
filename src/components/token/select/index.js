@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Text, View, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { TokenImage } from "../image";
 import ChevronDown from "../../../../assets/images/chevron-down.svg";
 import PinkChevronDown from "../../../../assets/images/chevron-down-pink.svg";
@@ -51,30 +51,26 @@ const styles = StyleSheet.create({
 });
 
 export const Select = ({ token, onPress }) => (
-    <TouchableWithoutFeedback onPressIn={onPress}>
-        <View
-            style={token ? styles.standardContainer : styles.noTokenContainer}
-        >
-            {token ? (
-                <View style={styles.flexHorizontal}>
-                    <View style={styles.image}>
-                        <TokenImage
-                            address={token.address || "ETH"}
-                            size={16}
-                        />
-                    </View>
-                    <Text style={styles.standardLabel}>{token.symbol}</Text>
+    <TouchableOpacity
+        onPress={onPress}
+        style={token ? styles.standardContainer : styles.noTokenContainer}
+    >
+        {token ? (
+            <View style={styles.flexHorizontal}>
+                <View style={styles.image}>
+                    <TokenImage address={token.address || "ETH"} size={16} />
                 </View>
-            ) : (
-                <Text style={styles.noTokenLabel}>Select a token</Text>
-            )}
-            {token ? (
-                <ChevronDown width={12} height={12} />
-            ) : (
-                <PinkChevronDown width={12} height={12} />
-            )}
-        </View>
-    </TouchableWithoutFeedback>
+                <Text style={styles.standardLabel}>{token.symbol}</Text>
+            </View>
+        ) : (
+            <Text style={styles.noTokenLabel}>Select a token</Text>
+        )}
+        {token ? (
+            <ChevronDown width={12} height={12} />
+        ) : (
+            <PinkChevronDown width={12} height={12} />
+        )}
+    </TouchableOpacity>
 );
 
 Select.propTypes = {

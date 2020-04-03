@@ -1,6 +1,13 @@
 import React, { useState, useCallback, useLayoutEffect } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import {
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    Keyboard,
+    TouchableWithoutFeedback,
+} from "react-native";
 import { Select } from "./select";
 import { Modal } from "./modal";
 import Web3 from "web3";
@@ -99,6 +106,11 @@ export const Token = ({
         [reserves]
     );
 
+    const handleTextInputPressOut = useCallback(() => {
+        console.log("Lol");
+        Keyboard.dismiss();
+    }, []);
+
     return (
         <View>
             <View style={styles.container}>
@@ -108,19 +120,21 @@ export const Token = ({
                     </Text>
                 </View>
                 <View style={styles.amountContainer}>
-                    <TextInput
-                        keyboardType="numeric"
-                        placeholder="0.0"
-                        style={styles.amount}
-                        numberOfLines={1}
-                        value={
-                            stringAmount && stringAmount !== "0"
-                                ? stringAmount
-                                : ""
-                        }
-                        placeholderTextColor="#808080"
-                        onChangeText={handleAmountChange}
-                    />
+                    <TouchableWithoutFeedback onBlur={handleTextInputPressOut}>
+                        <TextInput
+                            keyboardType="numeric"
+                            placeholder="0.0"
+                            style={styles.amount}
+                            numberOfLines={1}
+                            value={
+                                stringAmount && stringAmount !== "0"
+                                    ? stringAmount
+                                    : ""
+                            }
+                            placeholderTextColor="#808080"
+                            onChangeText={handleAmountChange}
+                        />
+                    </TouchableWithoutFeedback>
                     <Select token={token} onPress={handleModalOpen} />
                 </View>
             </View>

@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 8,
     },
     warningTextContainer: {
-        marginBottom: 32,
+        marginBottom: 16,
         width: "100%",
     },
     buttonContainer: {
