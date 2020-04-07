@@ -16,6 +16,7 @@ import {
 import { NETWORK_ID } from "../../env";
 import ArrowDown from "../../../assets/images/arrow-down.svg";
 import { TradeDetails } from "./trade-details";
+import Spinner from "react-native-spinkit";
 
 const styles = StyleSheet.create({
     outerContainer: {
@@ -61,12 +62,16 @@ const styles = StyleSheet.create({
         width: "100%",
     },
     buttonContainer: {
-        width: "70%",
+        display: "flex",
+        alignItems: "center",
     },
     exchangeRateText: {
         fontFamily: "Inter",
         fontSize: 12,
         color: "rgb(196, 196, 196)",
+    },
+    warningMessageContainer: {
+        marginBottom: 15,
     },
 });
 
@@ -77,12 +82,14 @@ export const Swap = () => {
         originReserves,
         destinationReserves,
         tradeDetails,
+        loading,
     } = useSelector((state) => ({
         web3Instance: state.eth.web3Instance,
         selectedAddress: state.eth.selectedAddress,
         originReserves: state.uniswap.reserves.origin,
         destinationReserves: state.uniswap.reserves.destination,
         tradeDetails: state.uniswap.trade,
+        loading: !!state.loadings.amount,
     }));
     const dispatch = useDispatch();
 
@@ -113,6 +120,9 @@ export const Swap = () => {
             } else if (destinationAmountChanged) {
                 setOriginAmount(amount);
             }
+        } else {
+            setOriginAmount("0");
+            setDestinationAmount("0");
         }
     }, [tradeDetails]);
 
@@ -121,7 +131,10 @@ export const Swap = () => {
             !web3Instance ||
             !originReserves ||
             !destinationReserves ||
-            (!originAmountChanged && !destinationAmountChanged)
+            (originReserves === "ETH" && destinationReserves === "ETH") ||
+            (!originAmountChanged && !destinationAmountChanged) ||
+            (originAmountChanged && originAmount === "0") ||
+            (destinationAmountChanged && destinationAmount === "0")
         ) {
             dispatch(resetTradeDetails());
             return;
@@ -153,8 +166,14 @@ export const Swap = () => {
             if (web3Instance) {
                 dispatch(getOriginTokenReserves(token));
             }
+            if (
+                destinationToken &&
+                token.address === destinationToken.address
+            ) {
+                setDestinationToken(null);
+            }
         },
-        [web3Instance]
+        [web3Instance, destinationToken]
     );
 
     const handleDestinationAmountChange = useCallback((amount) => {
@@ -169,8 +188,11 @@ export const Swap = () => {
             if (web3Instance) {
                 dispatch(getDestinationTokenReserves(token));
             }
+            if (originToken && token.address === originToken.address) {
+                setOriginToken(null);
+            }
         },
-        [web3Instance]
+        [web3Instance, originToken]
     );
 
     const handleButtonPress = useCallback(() => {
@@ -215,7 +237,7 @@ export const Swap = () => {
                 />
             </View>
             <View style={styles.warningTextContainer}>
-                {tradeDetails ? (
+                {tradeDetails && !loading ? (
                     <TradeDetails
                         details={tradeDetails}
                         additionalSlippage={additionalSlippage}
@@ -224,19 +246,25 @@ export const Swap = () => {
                         onDeadlineChange={setDeadline}
                     />
                 ) : (
-                    <WarningMessage
-                        originToken={originToken}
-                        destinationToken={destinationToken}
-                        originAmount={originAmount}
-                        destinationAmount={destinationAmount}
-                    />
+                    <View style={styles.warningMessageContainer}>
+                        <WarningMessage
+                            originToken={originToken}
+                            destinationToken={destinationToken}
+                            originAmount={originAmount}
+                            destinationAmount={destinationAmount}
+                        />
+                    </View>
                 )}
             </View>
             <View style={styles.buttonContainer}>
-                <Button
-                    title={selectedAddress ? "Swap" : "Connect to a wallet"}
-                    onPress={handleButtonPress}
-                />
+                {loading ? (
+                    <Spinner type="Bounce" size={40} color="#808080" />
+                ) : (
+                    <Button
+                        title={selectedAddress ? "Swap" : "Connect to a wallet"}
+                        onPress={handleButtonPress}
+                    />
+                )}
             </View>
         </View>
     );

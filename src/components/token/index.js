@@ -5,8 +5,6 @@ import {
     Text,
     View,
     TextInput,
-    Keyboard,
-    TouchableWithoutFeedback,
 } from "react-native";
 import { Select } from "./select";
 import { Modal } from "./modal";
@@ -41,10 +39,12 @@ const styles = StyleSheet.create({
     },
     amount: {
         flex: 1,
-        fontSize: 20,
+        fontSize: 24,
+        lineHeight: 24,
         color: "#c4c4c4",
         fontFamily: "Inter",
         paddingRight: 12,
+        fontWeight: "normal",
     },
 });
 
@@ -101,15 +101,9 @@ export const Token = ({
                 properNumericValue = reserves.toFixed();
             }
             onAmountChange(toWei(properNumericValue));
-            setStringAmount(newAmount);
         },
         [reserves]
     );
-
-    const handleTextInputPressOut = useCallback(() => {
-        console.log("Lol");
-        Keyboard.dismiss();
-    }, []);
 
     return (
         <View>
@@ -120,21 +114,19 @@ export const Token = ({
                     </Text>
                 </View>
                 <View style={styles.amountContainer}>
-                    <TouchableWithoutFeedback onBlur={handleTextInputPressOut}>
-                        <TextInput
-                            keyboardType="numeric"
-                            placeholder="0.0"
-                            style={styles.amount}
-                            numberOfLines={1}
-                            value={
-                                stringAmount && stringAmount !== "0"
-                                    ? stringAmount
-                                    : ""
-                            }
-                            placeholderTextColor="#808080"
-                            onChangeText={handleAmountChange}
-                        />
-                    </TouchableWithoutFeedback>
+                    <TextInput
+                        keyboardType="numeric"
+                        placeholder="0.0"
+                        style={styles.amount}
+                        numberOfLines={1}
+                        value={
+                            stringAmount && stringAmount !== "0"
+                                ? stringAmount
+                                : ""
+                        }
+                        placeholderTextColor="#808080"
+                        onChangeText={handleAmountChange}
+                    />
                     <Select token={token} onPress={handleModalOpen} />
                 </View>
             </View>

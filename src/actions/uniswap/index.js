@@ -4,6 +4,7 @@ import {
     getMarketDetails as getUniswapMarketDetails,
     TRADE_EXACT,
 } from "@uniswap/sdk";
+import { postLoading, deleteLoading } from "../loadings";
 
 export const GET_ORIGIN_TOKEN_RESERVES_SUCCESS =
     "GET_ORIGIN_TOKEN_RESERVES_SUCCESS";
@@ -30,6 +31,7 @@ const getTradeDetailsSuccess = (details) => ({
 export const resetTradeDetails = () => ({ type: RESET_TRADE_DETAILS_SUCCESS });
 
 export const getOriginTokenReserves = (token) => async (dispatch, getState) => {
+    dispatch(postLoading());
     try {
         const { eth } = getState();
         const { web3Instance } = eth;
@@ -44,12 +46,14 @@ export const getOriginTokenReserves = (token) => async (dispatch, getState) => {
     } catch (error) {
         console.error(error);
     }
+    dispatch(deleteLoading());
 };
 
 export const getDestinationTokenReserves = (token) => async (
     dispatch,
     getState
 ) => {
+    dispatch(postLoading());
     try {
         const { eth } = getState();
         const { web3Instance } = eth;
@@ -64,6 +68,7 @@ export const getDestinationTokenReserves = (token) => async (
     } catch (error) {
         console.error(error);
     }
+    dispatch(deleteLoading());
 };
 
 export const getTradeDetails = (
@@ -71,6 +76,7 @@ export const getTradeDetails = (
     originAmount,
     destinationReserves
 ) => async (dispatch) => {
+    dispatch(postLoading());
     try {
         if (!originReserves || !destinationReserves) {
             console.warn("tried to get market details with falsy reserves");
@@ -89,4 +95,5 @@ export const getTradeDetails = (
     } catch (error) {
         console.error(error);
     }
+    dispatch(deleteLoading());
 };

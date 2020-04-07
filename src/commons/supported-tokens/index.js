@@ -3,6 +3,7 @@ const ETH = {
     symbol: "ETH",
     decimals: 18,
     exchangeAddress: null,
+    address: "ETH",
 };
 
 export const SUPPORTED_TOKENS = Object.freeze({

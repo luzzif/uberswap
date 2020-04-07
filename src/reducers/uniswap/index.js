@@ -11,6 +11,7 @@ const initialState = {
         destination: null,
     },
     trade: null,
+    loading: false,
 };
 
 export const uniswapReducer = (state = initialState, action) => {

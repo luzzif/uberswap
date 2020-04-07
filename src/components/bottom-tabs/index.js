@@ -69,11 +69,8 @@ export const BottomTabs = ({ items, index, onChange }) => {
             {items.map((item, itemIndex) => (
                 <TouchableOpacity
                     key={item.key}
-                    onPress={
-                        item.disabled
-                            ? () => {}
-                            : getItemPresshandler(itemIndex)
-                    }
+                    disabled={item.disabled}
+                    onPress={getItemPresshandler(itemIndex)}
                     style={{
                         width: `${100 / items.length}%`,
                         ...(index === itemIndex

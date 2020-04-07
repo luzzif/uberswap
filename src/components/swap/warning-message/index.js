@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import PropTypes from "prop-types";
 import { Text, StyleSheet, View } from "react-native";
 
@@ -21,7 +21,7 @@ export const WarningMessage = ({
     const [warningMessage, setWarningMessage] = useState("");
     const [error, setError] = useState(false);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (!originToken || !destinationToken) {
             setWarningMessage("Select a token to continue");
             setError(false);
