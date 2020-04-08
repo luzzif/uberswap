@@ -17,6 +17,12 @@ const commonItemTitleStyles = {
 const styles = StyleSheet.create({
     outerContainer: {
         display: "flex",
+        justifyContent: "center",
+        width: "100%",
+        height: 56,
+    },
+    innerContainer: {
+        display: "flex",
         flexDirection: "row",
         justifyContent: "space-around",
         alignItems: "center",
@@ -66,23 +72,27 @@ export const BottomTabs = ({ items, index, onChange }) => {
 
     return (
         <View style={styles.outerContainer}>
-            {items.map((item, itemIndex) => (
-                <TouchableOpacity
-                    key={item.key}
-                    disabled={item.disabled}
-                    onPress={getItemPresshandler(itemIndex)}
-                    style={{
-                        width: `${100 / items.length}%`,
-                        ...(index === itemIndex
-                            ? styles.selectedItem
-                            : styles.unselectedItem),
-                    }}
-                >
-                    <Text style={getItemTextStyles(itemIndex, item.disabled)}>
-                        {item.title}
-                    </Text>
-                </TouchableOpacity>
-            ))}
+            <View style={styles.innerContainer}>
+                {items.map((item, itemIndex) => (
+                    <TouchableOpacity
+                        key={item.key}
+                        disabled={item.disabled}
+                        onPress={getItemPresshandler(itemIndex)}
+                        style={{
+                            width: `${100 / items.length}%`,
+                            ...(index === itemIndex
+                                ? styles.selectedItem
+                                : styles.unselectedItem),
+                        }}
+                    >
+                        <Text
+                            style={getItemTextStyles(itemIndex, item.disabled)}
+                        >
+                            {item.title}
+                        </Text>
+                    </TouchableOpacity>
+                ))}
+            </View>
         </View>
     );
 };

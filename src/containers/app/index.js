@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
         display: "flex",
     },
     bottomTabsContainer: {
-        marginBottom: 16,
         marginHorizontal: 16,
     },
     toolbarContainer: {
