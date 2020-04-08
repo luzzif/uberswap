@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Toolbar } from "../../components/toolbar";
-import { Footer } from "../../components/footer";
 import { useDispatch } from "react-redux";
 import { initializeWeb3 } from "../../actions/eth";
 import { Swap } from "../../components/swap";
@@ -14,15 +13,21 @@ const styles = StyleSheet.create({
         height: "100%",
         backgroundColor: "rgb(51, 54, 57)",
     },
-    contentContainer: { display: "flex", flex: 1 },
-    tabContainer: {
+    contentContainer: {
+        display: "flex",
+        justifyContent: "center",
         flex: 1,
+    },
+    tabContainer: {
         marginHorizontal: 16,
-        marginTop: 8,
+        display: "flex",
     },
     bottomTabsContainer: {
         marginBottom: 16,
         marginHorizontal: 16,
+    },
+    toolbarContainer: {
+        width: "100%",
     },
 });
 
@@ -36,34 +41,35 @@ export const App = () => {
 
     return (
         <View style={styles.outerContainer}>
-            <Toolbar />
+            <View style={styles.toolbarContainer}>
+                <Toolbar />
+            </View>
             <View style={styles.contentContainer}>
                 <View style={styles.tabContainer}>
                     {tabIndex === 0 && <Swap />}
                 </View>
-                <Footer />
-                <View style={styles.bottomTabsContainer}>
-                    <BottomTabs
-                        items={[
-                            {
-                                key: "swap",
-                                title: "Swap",
-                            },
-                            {
-                                key: "send",
-                                title: "Send",
-                                disabled: true,
-                            },
-                            {
-                                key: "pool",
-                                title: "Pool",
-                                disabled: true,
-                            },
-                        ]}
-                        index={tabIndex}
-                        onChange={setTabIndex}
-                    />
-                </View>
+            </View>
+            <View style={styles.bottomTabsContainer}>
+                <BottomTabs
+                    items={[
+                        {
+                            key: "swap",
+                            title: "Swap",
+                        },
+                        {
+                            key: "send",
+                            title: "Send",
+                            disabled: true,
+                        },
+                        {
+                            key: "pool",
+                            title: "Pool",
+                            disabled: true,
+                        },
+                    ]}
+                    index={tabIndex}
+                    onChange={setTabIndex}
+                />
             </View>
         </View>
     );
