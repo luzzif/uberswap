@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     amount: {
         flex: 1,
         fontSize: 24,
-        lineHeight: 24,
+        lineHeight: 32,
         color: "#c4c4c4",
         fontFamily: "Inter",
         paddingRight: 12,
