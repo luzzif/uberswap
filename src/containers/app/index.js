@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     },
     toolbarContainer: {
         position: "absolute",
+        width: "100%",
     },
 });
 
