@@ -1,34 +1,22 @@
 import React, { useState, useCallback, useEffect } from "react";
 import PropTypes from "prop-types";
-import {
-    Text,
-    StyleSheet,
-    View,
-    KeyboardAvoidingView,
-    TouchableOpacity,
-} from "react-native";
-import PinkChevronDown from "../../../../assets/images/chevron-down-pink.svg";
-import PinkChevronUp from "../../../../assets/images/chevron-up-pink.svg";
-import { Chip } from "../../chip";
-import { Input } from "../../input";
+import { StyleSheet, View } from "react-native";
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import { SUPPORTED_TOKENS } from "../../../commons/supported-tokens";
 import { NETWORK_ID } from "../../../env";
-import Collapsible from "react-native-collapsible";
+import { Modal } from "./modal";
+import { Button } from "../../button";
 
 const {
     utils: { fromWei },
 } = Web3;
 
-const commonTradeDetailsContainerStyles = {
-    width: "100%",
-    borderRadius: 20,
-};
-
 const styles = StyleSheet.create({
     outerContainer: {
         width: "100%",
+        display: "flex",
+        alignItems: "center",
         paddingHorizontal: 16,
     },
     advancedDetailsText: {
@@ -40,45 +28,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
     },
-    tradeDetailsOuterContainer: {
-        ...commonTradeDetailsContainerStyles,
-        backgroundColor: "rgb(41, 44, 47)",
-        width: "100%",
-    },
-    tradeDetailsInnerContainer: {
-        ...commonTradeDetailsContainerStyles,
-        backgroundColor: "rgb(31, 34, 36)",
-    },
-    textContainer: {
-        paddingHorizontal: 16,
-        paddingVertical: 16,
-    },
-    text: {
-        fontFamily: "Inter",
-        color: "#fff",
-        fontSize: 12,
-    },
-    bottomSpacer: {
-        marginBottom: 4,
-    },
-    highlightedText: {
-        color: "#dc6be5",
-    },
     touchableText: {
         display: "flex",
         alignItems: "center",
         marginBottom: 16,
-    },
-    chipsContainer: {
-        display: "flex",
-        flexDirection: "row",
-        marginTop: 8,
-    },
-    rightSpacer: {
-        marginRight: 8,
-    },
-    deadlineInputContainer: {
-        marginTop: 4,
     },
 });
 
@@ -105,18 +58,18 @@ export const TradeDetails = ({
             SUPPORTED_TOKENS[NETWORK_ID][inputAmount.token.address].symbol
         );
         setOriginAmount(
-            new BigNumber(fromWei(inputAmount.amount.toFixed())).decimalPlaces(
-                4
-            )
+            new BigNumber(fromWei(inputAmount.amount.toFixed()))
+                .decimalPlaces(4)
+                .toString()
         );
 
         setDestinationToken(
             SUPPORTED_TOKENS[NETWORK_ID][outputAmount.token.address].symbol
         );
         setDestinationAmount(
-            new BigNumber(fromWei(outputAmount.amount.toFixed())).decimalPlaces(
-                4
-            )
+            new BigNumber(fromWei(outputAmount.amount.toFixed()))
+                .decimalPlaces(4)
+                .toString()
         );
 
         setExpectedSlippage(
@@ -124,125 +77,36 @@ export const TradeDetails = ({
         );
     }, [details]);
 
-    const handleTextPress = useCallback(() => {
-        setShow(!show);
+    const handleModalOpen = useCallback(() => {
+        setShow(true);
     }, [show]);
 
-    const getAdditionalSlippageChipPressHandler = (slippage) => () => {
-        onAdditionalSlippageChange(slippage);
-    };
-
-    const handleDeadlineChange = (newAmount) => {
-        const parsedAmount = parseInt(newAmount);
-        if (isNaN(parsedAmount)) {
-            onDeadlineChange("");
-        } else {
-            onDeadlineChange(parsedAmount);
-        }
-    };
+    const handleModalClose = useCallback(() => {
+        setShow(false);
+    }, [show]);
 
     return (
         <View style={styles.outerContainer}>
-            <TouchableOpacity
-                onPress={handleTextPress}
-                style={styles.touchableText}
-            >
-                <View style={styles.advancedDetailsTextContainer}>
-                    <Text style={styles.advancedDetailsText}>
-                        {show ? "Hide details" : "Advanced details"}
-                    </Text>
-                    {show ? (
-                        <PinkChevronUp width={12} height={12} />
-                    ) : (
-                        <PinkChevronDown width={12} height={12} />
-                    )}
-                </View>
-            </TouchableOpacity>
-            <Collapsible
-                collapsed={!show}
-                align="bottom"
-                style={styles.tradeDetailsOuterContainer}
-            >
-                <View style={styles.textContainer}>
-                    <Text style={{ ...styles.text, ...styles.bottomSpacer }}>
-                        You are selling{" "}
-                        <Text
-                            style={styles.highlightedText}
-                        >{`${originAmount} ${originToken}`}</Text>{" "}
-                        for at least{" "}
-                        <Text
-                            style={styles.highlightedText}
-                        >{`${destinationAmount} ${destinationToken}`}</Text>
-                    </Text>
-                    <Text style={styles.text}>
-                        Expected price slippage:{" "}
-                        <Text style={styles.highlightedText}>
-                            {expectedSlippage}%
-                        </Text>
-                    </Text>
-                </View>
-                <View
-                    style={{
-                        display: show ? "flex" : "none",
-                        ...styles.tradeDetailsInnerContainer,
-                    }}
-                >
-                    <View style={styles.textContainer}>
-                        <Text
-                            style={{
-                                ...styles.text,
-                                ...styles.bottomSpacer,
-                            }}
-                        >
-                            Limit additional price slippage.
-                        </Text>
-                        <View
-                            style={{
-                                ...styles.chipsContainer,
-                                ...styles.bottomSpacer,
-                            }}
-                        >
-                            <View style={styles.rightSpacer}>
-                                <Chip
-                                    text="0.1%"
-                                    active={additionalSlippage === 0.1}
-                                    onPress={getAdditionalSlippageChipPressHandler(
-                                        0.1
-                                    )}
-                                />
-                            </View>
-                            <View style={styles.rightSpacer}>
-                                <Chip
-                                    text="0.5% (suggested)"
-                                    active={additionalSlippage === 0.5}
-                                    onPress={getAdditionalSlippageChipPressHandler(
-                                        0.5
-                                    )}
-                                />
-                            </View>
-                            <Chip
-                                text="1%"
-                                active={additionalSlippage === 1}
-                                onPress={getAdditionalSlippageChipPressHandler(
-                                    1
-                                )}
-                            />
-                        </View>
-                        <KeyboardAvoidingView
-                            behavior="padding"
-                            style={styles.deadlineInputContainer}
-                        >
-                            <Input
-                                label="Set swap deadline (minutes from now)"
-                                keyboardType="numeric"
-                                placeholder="Deadline"
-                                value={deadline}
-                                onChangeText={handleDeadlineChange}
-                            />
-                        </KeyboardAvoidingView>
-                    </View>
-                </View>
-            </Collapsible>
+            <View style={styles.advancedDetailsTextContainer}>
+                <Button
+                    secondary
+                    onPress={handleModalOpen}
+                    title="Advanced details"
+                />
+            </View>
+            <Modal
+                open={show}
+                onClose={handleModalClose}
+                originToken={originToken}
+                originAmount={originAmount}
+                destinationToken={destinationToken}
+                destinationAmount={destinationAmount}
+                expectedSlippage={expectedSlippage}
+                additionalSlippage={additionalSlippage}
+                onAdditionalSlippageChange={onAdditionalSlippageChange}
+                deadline={deadline}
+                onDeadlineChange={onDeadlineChange}
+            />
         </View>
     );
 };

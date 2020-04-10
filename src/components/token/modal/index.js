@@ -112,7 +112,7 @@ export const Modal = ({ open, onClose, onChange }) => {
                 hasBackdrop
                 onBackButtonPress={onClose}
                 onBackdropPress={onClose}
-                backdropColor="rgba(0, 0, 0, 0.5)"
+                backdropColor="rgba(0, 0, 0, 0.7)"
                 animationIn="fadeIn"
                 animationOut="fadeOut"
                 backdropTransitionOutTiming={0}

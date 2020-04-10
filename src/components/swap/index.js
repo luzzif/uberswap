@@ -58,7 +58,6 @@ const styles = StyleSheet.create({
     },
     warningTextContainer: {
         marginBottom: 16,
-        width: "100%",
     },
     buttonContainer: {
         display: "flex",
@@ -68,9 +67,6 @@ const styles = StyleSheet.create({
         fontFamily: "Inter",
         fontSize: 12,
         color: "rgb(196, 196, 196)",
-    },
-    warningMessageContainer: {
-        marginBottom: 15,
     },
 });
 
@@ -195,7 +191,7 @@ export const Swap = () => {
     );
 
     const handleButtonPress = useCallback(() => {
-        if (web3Instance) {
+        if (selectedAddress) {
             // TODO: implement swap call
         } else {
             dispatch(initializeLedgerListener());
@@ -245,19 +241,17 @@ export const Swap = () => {
                         onDeadlineChange={setDeadline}
                     />
                 ) : (
-                    <View style={styles.warningMessageContainer}>
-                        <WarningMessage
-                            originToken={originToken}
-                            destinationToken={destinationToken}
-                            originAmount={originAmount}
-                            destinationAmount={destinationAmount}
-                        />
-                    </View>
+                    <WarningMessage
+                        originToken={originToken}
+                        destinationToken={destinationToken}
+                        originAmount={originAmount}
+                        destinationAmount={destinationAmount}
+                    />
                 )}
             </View>
             <View style={styles.buttonContainer}>
                 {loading ? (
-                    <Spinner type="Bounce" size={40} color="#808080" />
+                    <Spinner type="Bounce" size={52} color="#808080" />
                 ) : (
                     <Button
                         title={selectedAddress ? "Swap" : "Connect to a wallet"}

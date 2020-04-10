@@ -5,6 +5,8 @@ import { Text, StyleSheet, View } from "react-native";
 const styles = StyleSheet.create({
     outerContainer: {
         display: "flex",
+        height: 52,
+        justifyContent: "center",
         alignItems: "center",
     },
     text: {

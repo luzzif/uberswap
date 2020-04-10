@@ -3,6 +3,7 @@ import createLedgerSubprovider from "@ledgerhq/web3-subprovider";
 import ZeroProvider from "web3-provider-engine/zero";
 import Web3 from "web3";
 import { PROVIDER_URL, NETWORK_ID } from "../../env";
+import { postLoading, deleteLoading } from "../loadings";
 
 export const POST_TOKEN_CLIENT = "POST_TOKEN_CLIENT";
 export const POST_SELECTED_ADDRESS = "POST_SELECTED_ADDRESS";
@@ -30,10 +31,13 @@ export const initializeWeb3 = () => async (dispatch) => {
 };
 
 export const initializeLedgerListener = () => async (dispatch) => {
+    dispatch(postLoading());
     try {
+        console.log("lol");
         const subscription = TransportHid.listen({
             next: async (event) => {
                 subscription.unsubscribe();
+                console.log(event);
                 if (event.type !== "add") {
                     return;
                 }
@@ -41,7 +45,7 @@ export const initializeLedgerListener = () => async (dispatch) => {
                     const ledgerSubProvider = createLedgerSubprovider(
                         () => TransportHid.create(),
                         {
-                            networkId: parseInt(NETWORK_ID),
+                            networkId: NETWORK_ID,
                             accountsLength: 1,
                             paths: ["m/44'/60'/0'/0"],
                         }
@@ -51,34 +55,29 @@ export const initializeLedgerListener = () => async (dispatch) => {
                         ...ledgerSubProvider,
                     });
                     const initializedWeb3 = new Web3(startedEngine);
-                    initializedWeb3.eth
-                        .getAccounts()
-                        .then((accounts) => {
-                            dispatch(postWeb3Instance(initializedWeb3));
-                            dispatch(postSelectedAddress(accounts[0]));
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                            dispatch(postWeb3Instance(null));
-                        })
-                        .finally(() => {
-                            subscription.unsubscribe();
-                        });
+                    const accounts = await initializedWeb3.eth.getAccounts();
+                    dispatch(postWeb3Instance(initializedWeb3));
+                    dispatch(postSelectedAddress(accounts[0]));
                 } catch (error) {
                     console.error(error);
                     dispatch(postWeb3Instance(null));
+                } finally {
+                    dispatch(deleteLoading());
                 }
             },
             error: (error) => {
                 subscription.unsubscribe();
+                dispatch(deleteLoading());
                 console.error(error);
             },
             complete: () => {
                 subscription.unsubscribe();
+                dispatch(deleteLoading());
             },
         });
     } catch (error) {
         console.error(error);
         dispatch(postWeb3Instance(null));
+        dispatch(deleteLoading());
     }
 };

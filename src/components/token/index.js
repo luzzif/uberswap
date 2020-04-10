@@ -1,11 +1,6 @@
 import React, { useState, useCallback, useLayoutEffect } from "react";
 import PropTypes from "prop-types";
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput } from "react-native";
 import { Select } from "./select";
 import { Modal } from "./modal";
 import Web3 from "web3";

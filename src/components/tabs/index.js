@@ -15,12 +15,6 @@ const commonItemTitleStyles = {
 };
 
 const styles = StyleSheet.create({
-    outerContainer: {
-        display: "flex",
-        justifyContent: "center",
-        width: "100%",
-        height: 56,
-    },
     innerContainer: {
         display: "flex",
         flexDirection: "row",
@@ -55,7 +49,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export const BottomTabs = ({ items, index, onChange }) => {
+export const Tabs = ({ items, index, onChange }) => {
     const getItemPresshandler = (itemIndex) => () => {
         onChange(itemIndex);
     };
@@ -97,7 +91,7 @@ export const BottomTabs = ({ items, index, onChange }) => {
     );
 };
 
-BottomTabs.propTypes = {
+Tabs.propTypes = {
     items: PropTypes.arrayOf(
         PropTypes.shape({
             key: PropTypes.string.isRequired,

@@ -5,10 +5,10 @@ import PropTypes from "prop-types";
 const commonContainerStyles = {
     display: "flex",
     justifyContent: "center",
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     borderRadius: 24,
     borderWidth: 1,
-    height: 36,
+    height: 44,
 };
 
 const styles = StyleSheet.create({

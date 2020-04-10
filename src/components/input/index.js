@@ -4,7 +4,7 @@ import { TextInput, View, Text, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
     root: {
-        height: 36,
+        height: 48,
         display: "flex",
         justifyContent: "center",
         paddingLeft: 16,
