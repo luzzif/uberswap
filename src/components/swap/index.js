@@ -232,7 +232,7 @@ export const Swap = () => {
                 />
             </View>
             <View style={styles.warningTextContainer}>
-                {tradeDetails && !loading ? (
+                {tradeDetails && !loading && selectedAddress ? (
                     <TradeDetails
                         details={tradeDetails}
                         additionalSlippage={additionalSlippage}
