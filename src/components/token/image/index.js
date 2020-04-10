@@ -12,6 +12,7 @@ export const TokenImage = ({ address, size, ...rest }) =>
                 uri: `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`,
                 width: size,
                 height: size,
+                cache: "only-if-cached",
             }}
         />
     ) : (
