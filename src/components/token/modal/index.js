@@ -263,5 +263,5 @@ Modal.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onChange: PropTypes.func.isRequired,
-    balances: PropTypes.array.isRequired,
+    balances: PropTypes.object.isRequired,
 };
