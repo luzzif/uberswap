@@ -7,6 +7,9 @@ import { createStore, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { reducers } from "./src/reducers";
 import { Provider } from "react-redux";
+import BigNumber from "bignumber.js";
+
+BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_DOWN });
 
 // eslint-disable-next-line no-undef
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
