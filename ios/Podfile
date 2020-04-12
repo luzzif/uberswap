@@ -39,6 +39,8 @@ target 'uniswap' do
 
   pod 'react-native-config', :path => '../node_modules/react-native-config'
 
+  pod 'react-native-randombytes', :path => '../node_modules/react-native-randombytes'
+
   target 'uniswapTests' do
     inherit! :search_paths
     # Pods for testing

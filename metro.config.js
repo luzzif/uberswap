@@ -13,6 +13,10 @@ module.exports = (async () => {
         resolver: {
             assetExts: assetExts.filter((ext) => ext !== "svg"),
             sourceExts: [...sourceExts, "svg"],
+            extraNodeModules: {
+                ...require("node-libs-react-native"),
+                vm: require.resolve("vm-browserify"),
+            },
         },
     };
 })();
