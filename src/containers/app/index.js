@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Toolbar } from "../../components/toolbar";
 import { useDispatch, useSelector } from "react-redux";
-import { initializeWeb3 } from "../../actions/eth";
+import { initializeWeb3, getTokenBalances } from "../../actions/eth";
 import { Swap } from "../../components/swap";
 import { Tabs } from "../../components/tabs";
 
@@ -41,6 +41,12 @@ export const App = () => {
     useEffect(() => {
         dispatch(initializeWeb3());
     }, []);
+
+    useEffect(() => {
+        if (selectedAddress) {
+            dispatch(getTokenBalances(selectedAddress));
+        }
+    }, [selectedAddress]);
 
     return (
         <View style={styles.outerContainer}>

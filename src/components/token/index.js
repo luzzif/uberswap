@@ -50,12 +50,16 @@ export const Token = ({
     amount,
     onAmountChange,
 }) => {
-    const reserves = useSelector((state) => {
+    const { tokenBalances, reserves } = useSelector((state) => {
         const specificReserve =
             state.uniswap.reserves[input ? "origin" : "destination"];
-        return specificReserve && specificReserve !== "ETH"
-            ? specificReserve.tokenReserve.amount
-            : new BigNumber("0");
+        return {
+            tokenBalances: state.eth.tokenBalances,
+            reserves:
+                specificReserve && specificReserve !== "ETH"
+                    ? specificReserve.tokenReserve.amount
+                    : new BigNumber("0"),
+        };
     });
 
     const [modalOpen, setModalOpen] = useState(false);
@@ -129,6 +133,7 @@ export const Token = ({
                 open={modalOpen}
                 onClose={handleModalClose}
                 onChange={onTokenChange}
+                balances={tokenBalances}
             />
         </View>
     );

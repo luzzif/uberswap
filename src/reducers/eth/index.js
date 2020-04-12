@@ -4,11 +4,13 @@ import {
     POST_TOKEN_CLIENT,
     POST_TRANSACTION_HASH,
     DELETE_TRANSACTION_HASH,
+    POST_TOKEN_BALANCE,
 } from "../../actions/eth";
 
 const initialState = {
     selectedAddress: null,
     web3Instance: null,
+    tokenBalances: {},
 };
 
 export const ethReducer = (state = initialState, action) => {
@@ -40,6 +42,16 @@ export const ethReducer = (state = initialState, action) => {
                 transactionHashes: transactionHashes.filter(
                     (transactionHash) => transactionHash !== hash
                 ),
+            };
+        }
+        case POST_TOKEN_BALANCE: {
+            const { address, balance } = action;
+            return {
+                ...state,
+                tokenBalances: {
+                    ...state.tokenBalances,
+                    [address]: balance,
+                },
             };
         }
         default: {
