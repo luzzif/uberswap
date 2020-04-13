@@ -1,13 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import ReactNativeModal from "react-native-modal";
-import {
-    View,
-    Text,
-    KeyboardAvoidingView,
-    StyleSheet,
-    TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Chip } from "../../../chip";
 import { Input } from "../../../input";
 import Close from "../../../../../assets/images/close.svg";
@@ -174,10 +168,7 @@ export const Modal = ({
                                 )}
                             />
                         </View>
-                        <KeyboardAvoidingView
-                            behavior="padding"
-                            style={styles.deadlineInputContainer}
-                        >
+                        <View style={styles.deadlineInputContainer}>
                             <Input
                                 label="Set swap deadline (minutes from now)"
                                 keyboardType="numeric"
@@ -185,7 +176,7 @@ export const Modal = ({
                                 value={deadline}
                                 onChangeText={handleDeadlineChange}
                             />
-                        </KeyboardAvoidingView>
+                        </View>
                     </View>
                 </View>
             </View>
