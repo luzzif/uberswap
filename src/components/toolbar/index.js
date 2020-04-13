@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { View, StyleSheet, Text } from "react-native";
+import Unicorn from "../../../assets/images/unicorn.svg";
 
 const styles = StyleSheet.create({
     container: {
@@ -13,10 +14,16 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 16,
     },
-    logo: {
+    titleContainer: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    title: {
         fontFamily: "Inter",
         color: "#dc6be5",
         fontSize: 16,
+        marginLeft: 8,
     },
     addressContainer: {
         paddingHorizontal: 12,
@@ -46,7 +53,10 @@ export const Toolbar = ({ address }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.logo}>🦄 Uberswap</Text>
+            <View style={styles.titleContainer}>
+                <Unicorn width={24} height={24} color="#dc6be5" />
+                <Text style={styles.title}>Uberswap</Text>
+            </View>
             {address && (
                 <View style={styles.addressContainer}>
                     <Text style={styles.address}>{parsedAddress}</Text>
