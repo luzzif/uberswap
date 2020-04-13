@@ -1,4 +1,5 @@
 const { getDefaultConfig } = require("metro-config");
+const extraNodeModules = require("node-libs-react-native");
 
 module.exports = (async () => {
     const {
@@ -14,8 +15,8 @@ module.exports = (async () => {
             assetExts: assetExts.filter((ext) => ext !== "svg"),
             sourceExts: [...sourceExts, "svg"],
             extraNodeModules: {
-                ...require("node-libs-react-native"),
-                vm: require.resolve("vm-browserify"),
+                ...extraNodeModules,
+                vm: require.resolve("node-libs-react-native/mock/vm"),
             },
         },
     };
