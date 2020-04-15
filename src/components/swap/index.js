@@ -12,6 +12,7 @@ import {
     getDestinationTokenReserves,
     getOriginTokenReserves,
     resetTradeDetails,
+    postSwap,
 } from "../../actions/uniswap";
 import { NETWORK_ID } from "../../env";
 import ArrowDown from "../../../assets/images/arrow-down.svg";
@@ -192,11 +193,18 @@ export const Swap = () => {
 
     const handleButtonPress = useCallback(() => {
         if (selectedAddress) {
-            // TODO: implement swap call
+            dispatch(
+                postSwap(
+                    tradeDetails,
+                    additionalSlippage,
+                    deadline,
+                    selectedAddress
+                )
+            );
         } else {
             dispatch(initializeLedgerListener());
         }
-    });
+    }, [tradeDetails, additionalSlippage, deadline, selectedAddress]);
 
     return (
         <View style={styles.outerContainer}>

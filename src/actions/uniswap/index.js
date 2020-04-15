@@ -2,6 +2,7 @@ import {
     getTokenReserves,
     getTradeDetails as getUniswapTradeDetails,
     getMarketDetails as getUniswapMarketDetails,
+    getExecutionDetails,
     TRADE_EXACT,
 } from "@uniswap/sdk";
 import { postLoading, deleteLoading } from "../loadings";
@@ -92,6 +93,20 @@ export const getTradeDetails = (
             marketDetails
         );
         dispatch(getTradeDetailsSuccess(details));
+    } catch (error) {
+        console.error(error);
+    }
+    dispatch(deleteLoading());
+};
+
+export const postSwap = (trade, maxSlippage, deadline, recipient) => async (
+    dispatch
+) => {
+    dispatch(postLoading());
+    try {
+        console.log(
+            await getExecutionDetails(trade, maxSlippage, deadline, recipient)
+        );
     } catch (error) {
         console.error(error);
     }
