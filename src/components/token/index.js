@@ -10,14 +10,22 @@ const {
     utils: { toWei, fromWei },
 } = Web3;
 
+const commonContainerStyles = {
+    backgroundColor: "#202124",
+    borderRadius: 20,
+    borderWidth: 1,
+    paddingHorizontal: 16,
+    width: "100%",
+};
+
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#202124",
-        borderRadius: 20,
-        borderWidth: 1,
+    standardContainer: {
+        ...commonContainerStyles,
         borderColor: "#333333",
-        paddingHorizontal: 16,
-        width: "100%",
+    },
+    errorContainer: {
+        ...commonContainerStyles,
+        borderColor: "red",
     },
     labelContainer: {
         paddingVertical: 8,
@@ -64,6 +72,7 @@ export const Token = ({
 
     const [modalOpen, setModalOpen] = useState(false);
     const [stringAmount, setStringAmount] = useState("");
+    const [amountError, setAmountError] = useState(false);
 
     useLayoutEffect(() => {
         if (!stringAmount.endsWith(".")) {
@@ -90,9 +99,19 @@ export const Token = ({
                 newAmount.indexOf(" ") >= 0 ||
                 newAmount.indexOf("-") >= 0
             ) {
+                setAmountError(newAmount);
                 onAmountChange("0");
                 return;
             }
+            if (newAmount.endsWith(".")) {
+                setAmountError(true);
+            } else {
+                setAmountError(false);
+            }
+            if (/\.{2,}/.test(newAmount) || newAmount.split(".").length > 2) {
+                return;
+            }
+            setStringAmount(newAmount);
             let properNumericValue = isNaN(numericAmount)
                 ? "0"
                 : numericAmount.toString();
@@ -106,7 +125,13 @@ export const Token = ({
 
     return (
         <View>
-            <View style={styles.container}>
+            <View
+                style={
+                    amountError
+                        ? styles.errorContainer
+                        : styles.standardContainer
+                }
+            >
                 <View style={styles.labelContainer}>
                     <Text style={styles.label} numberOfLines={1}>
                         {input ? "Input" : "Output"}
