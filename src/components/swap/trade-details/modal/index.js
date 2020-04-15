@@ -134,7 +134,7 @@ export const Modal = ({
                                 ...styles.bottomSpacer,
                             }}
                         >
-                            Limit additional price slippage.
+                            Limit maximum price slippage.
                         </Text>
                         <View
                             style={{
