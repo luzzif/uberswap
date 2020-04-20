@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 16,
         display: "flex",
     },
-    bottomTabsContainer: {
+    tabsContainer: {
         marginHorizontal: 16,
         marginBottom: 16,
     },
@@ -54,7 +54,7 @@ export const App = () => {
                 <Toolbar address={selectedAddress} />
             </View>
             <View style={styles.contentContainer}>
-                <View style={styles.bottomTabsContainer}>
+                <View style={styles.tabsContainer}>
                     <Tabs
                         items={[
                             {
@@ -80,7 +80,6 @@ export const App = () => {
                     {tabIndex === 0 && <Swap />}
                 </View>
             </View>
-            <View style={styles.bottomSpacer} />
         </View>
     );
 };
