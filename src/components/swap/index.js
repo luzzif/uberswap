@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { Button } from "../../components/button";
-import { View, StyleSheet, Text } from "react-native";
+import { View, StyleSheet, Text, Keyboard } from "react-native";
 import { Token } from "../../components/token";
 import { SUPPORTED_TOKENS } from "../../commons/supported-tokens";
 import { useSelector, useDispatch } from "react-redux";
@@ -100,6 +100,7 @@ export const Swap = () => {
         false
     );
     const [additionalSlippage, setAdditionalSlippage] = useState(0.5);
+    const [txSpeed, setTxSpeed] = useState("average");
     const [deadline, setDeadline] = useState("");
 
     useEffect(() => {
@@ -192,13 +193,15 @@ export const Swap = () => {
     );
 
     const handleButtonPress = useCallback(() => {
+        Keyboard.dismiss();
         if (selectedAddress) {
             dispatch(
                 postSwap(
                     tradeDetails,
                     additionalSlippage,
                     deadline,
-                    selectedAddress
+                    selectedAddress,
+                    txSpeed
                 )
             );
         } else {
@@ -247,6 +250,8 @@ export const Swap = () => {
                         onAdditionalSlippageChange={setAdditionalSlippage}
                         deadline={deadline}
                         onDeadlineChange={setDeadline}
+                        txSpeed={txSpeed}
+                        onTxSpeedChange={setTxSpeed}
                     />
                 ) : (
                     <WarningMessage

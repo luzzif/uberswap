@@ -76,9 +76,15 @@ export const Modal = ({
     onAdditionalSlippageChange,
     deadline,
     onDeadlineChange,
+    txSpeed,
+    onTxSpeedChange,
 }) => {
     const getAdditionalSlippageChipPressHandler = (slippage) => () => {
         onAdditionalSlippageChange(slippage);
+    };
+
+    const getTxSpeedChipPressHandler = (txSpeed) => () => {
+        onTxSpeedChange(txSpeed);
     };
 
     const handleDeadlineChange = (newAmount) => {
@@ -168,6 +174,42 @@ export const Modal = ({
                                 )}
                             />
                         </View>
+                        <Text
+                            style={{
+                                ...styles.text,
+                                ...styles.bottomSpacer,
+                            }}
+                        >
+                            Set wanted transaction speed.
+                        </Text>
+                        <View
+                            style={{
+                                ...styles.chipsContainer,
+                                ...styles.bottomSpacer,
+                            }}
+                        >
+                            <View style={styles.rightSpacer}>
+                                <Chip
+                                    text="Slow"
+                                    active={txSpeed === "slow"}
+                                    onPress={getTxSpeedChipPressHandler("slow")}
+                                />
+                            </View>
+                            <View style={styles.rightSpacer}>
+                                <Chip
+                                    text="Average"
+                                    active={txSpeed === "average"}
+                                    onPress={getTxSpeedChipPressHandler(
+                                        "average"
+                                    )}
+                                />
+                            </View>
+                            <Chip
+                                text="Fast"
+                                active={txSpeed === "fast"}
+                                onPress={getTxSpeedChipPressHandler("fast")}
+                            />
+                        </View>
                         <View style={styles.deadlineInputContainer}>
                             <Input
                                 label="Set swap deadline (minutes from now)"
@@ -196,4 +238,6 @@ Modal.propTypes = {
     onAdditionalSlippageChange: PropTypes.func.isRequired,
     deadline: PropTypes.string.isRequired,
     onDeadlineChange: PropTypes.func.isRequired,
+    txSpeed: PropTypes.string.isRequired,
+    onTxSpeedChange: PropTypes.func.isRequired,
 };

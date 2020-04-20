@@ -41,6 +41,8 @@ export const TradeDetails = ({
     onAdditionalSlippageChange,
     deadline,
     onDeadlineChange,
+    txSpeed,
+    onTxSpeedChange,
 }) => {
     const [show, setShow] = useState(false);
     const [originToken, setOriginToken] = useState("0");
@@ -106,6 +108,8 @@ export const TradeDetails = ({
                 onAdditionalSlippageChange={onAdditionalSlippageChange}
                 deadline={deadline}
                 onDeadlineChange={onDeadlineChange}
+                txSpeed={txSpeed}
+                onTxSpeedChange={onTxSpeedChange}
             />
         </View>
     );
@@ -117,4 +121,6 @@ TradeDetails.propTypes = {
     onAdditionalSlippageChange: PropTypes.func.isRequired,
     deadline: PropTypes.string.isRequired,
     onDeadlineChange: PropTypes.func.isRequired,
+    txSpeed: PropTypes.string.isRequired,
+    onTxSpeedChange: PropTypes.func.isRequired,
 };
