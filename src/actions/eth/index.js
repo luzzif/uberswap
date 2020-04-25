@@ -32,9 +32,10 @@ export const initializeWeb3 = () => async (dispatch) => {
         const startedEngine = new ZeroProvider({
             rpcUrl: PROVIDER_URL,
         });
-        dispatch(postWeb3Instance(new Web3(startedEngine)));
+        const web3Instance = new Web3(startedEngine);
+        dispatch(postWeb3Instance(web3Instance));
     } catch (error) {
-        console.error(error);
+        console.error("error initializing web3", error);
     }
 };
 
@@ -67,11 +68,11 @@ export const getTokenBalances = (selectedAddress) => async (
                     )
                 );
             } catch (error) {
-                console.error(error);
+                console.error(`error getting ${address} balance`, error);
             }
         });
     } catch (error) {
-        console.error(error);
+        console.error("error getting token balances", error);
     }
 };
 
@@ -103,20 +104,20 @@ export const initializeLedgerListener = () => async (dispatch) => {
                     dispatch(postWeb3Instance(initializedWeb3));
                     dispatch(postSelectedAddress(selectedAddress));
                 } catch (error) {
-                    console.error(error);
+                    console.error("error initializing web3 from ledger", error);
                     dispatch(postWeb3Instance(null));
                 }
             },
             error: (error) => {
                 subscription.unsubscribe();
-                console.error(error);
+                console.error("hid transport error", error);
             },
             complete: () => {
                 subscription.unsubscribe();
             },
         });
     } catch (error) {
-        console.error(error);
+        console.error("error initializing ledger listener", error);
         dispatch(postWeb3Instance(null));
     }
 };

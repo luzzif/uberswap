@@ -6,6 +6,8 @@
     },
     "env": {
         "node": true,
-        "es6": true
+        "es6": true,
+        // To avoid warning on global fetch usage
+        "browser": true
     }
 }

@@ -14,12 +14,11 @@
     },
     "dependencies": {
         "@ledgerhq/react-native-hid": "^5.13.1",
-        "@ledgerhq/web3-subprovider": "^5.13.1",
+        "@ledgerhq/web3-subprovider": "^5.14.0",
         "@mondora/env": "^1.3.0",
         "@uniswap/sdk": "^1.0.0-beta.4",
         "base-64": "^0.1.0",
         "bignumber.js": "^9.0.0",
-        "node-fetch": "^2.6.0",
         "node-libs-react-native": "^1.2.0",
         "prop-types": "^15.7.2",
         "react": "16.13.1",
@@ -33,7 +32,7 @@
         "react-redux": "^7.2.0",
         "redux": "^4.0.5",
         "redux-thunk": "^2.3.0",
-        "web3": "^1.2.6",
+        "web3": "^1.2.7",
         "web3-provider-engine": "^15.0.7"
     },
     "devDependencies": {
@@ -44,7 +43,7 @@
         "eslint": "^6.5.1",
         "eslint-plugin-react": "^7.19.0",
         "husky": "^4.2.3",
-        "prettier": "^2.0.2",
+        "prettier": "^2.0.5",
         "react-native-svg-transformer": "^0.14.3"
     }
 }
